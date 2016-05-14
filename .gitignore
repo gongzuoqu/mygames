@@ -1,0 +1,17 @@
+*.vcproj.*.user
+*.ncb
+*.suo
+BuildLog*.htm
+*.o
+*.lib
+*.crt
+*.sdf
+*.P7S
+*.pyc
+*.$$$
+*.orig
+
+*/output/*
+**/.idea/*
+*/.sconsign.dblite
+*/.settings/*
