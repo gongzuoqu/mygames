@@ -16,16 +16,19 @@ import inputs
 class CPUSpinnerController:
     """..."""
 
-    def __init__(self, evManager):
+    def __init__(self, evManager, clock_tick_value=40):
         self.evManager = evManager
         self.evManager.RegisterListener(self)
 
         self.keepGoing = 1
+        self.clock = pygame.time.Clock()
+        self.tick_value = clock_tick_value
 
     def Run(self):
         while self.keepGoing:
             event = events.TickEvent()
             self.evManager.Post(event)
+            self.clock.tick(self.tick_value)
 
     def Notify(self, event):
         if isinstance(event, events.QuitEvent):
@@ -38,8 +41,14 @@ class PygameView:
         self.evManager = evManager
         self.evManager.RegisterListener(self)
 
+        self.sector_width = CELL_WIDTH
+        self.sector_height = CELL_WIDTH
+        frame_width = self.sector_width * 4
+        frame_height = self.sector_width * 4
+
         pygame.init()
-        self.window = pygame.display.set_mode((424, 440))
+        self.window = pygame.display.set_mode((frame_width, frame_height))
+
         pygame.display.set_caption('Example Game')
         self.background = pygame.Surface(self.window.get_size())
         self.background.fill((0, 0, 0))
@@ -59,26 +68,13 @@ class PygameView:
         self.window.blit(self.background, (0, 0))
         pygame.display.flip()
 
-        # use this squareRect as a cursor and go through the
-        # columns and rows and assign the rect
-        # positions of the SectorSprites
-        squareRect = pygame.Rect((-128, 10, 128, 128))
-
-        column = 0
-        for sector in gameMap.sectors:
-            if column < 3:
-                squareRect = squareRect.move(138, 0)
-            else:
-                column = 0
-                squareRect = squareRect.move(-(138 * 2), 138)
-            column += 1
-            newSprite = sprites.SectorSprite(sector, self.backSprites)
-            newSprite.rect = squareRect
-            newSprite = None
+        for i in range(len(gameMap.getSectors())):
+            msp = gameMap.createSectorSprites(i)
+            msp.add((self.backSprites))
 
     def ShowCharactor(self, charactor):
         sector = charactor.sector
-        charactorSprite = sprites.CharactorSprite(self.frontSprites)
+        charactorSprite = sprites.CharactorSprite(self.evManager, 64, 64, self.frontSprites)
         sectorSprite = self.GetSectorSprite(sector)
         charactorSprite.rect.center = sectorSprite.rect.center
 
@@ -116,7 +112,6 @@ class PygameView:
             dirtyRects = dirtyRects1 + dirtyRects2
             pygame.display.update(dirtyRects)
 
-
         elif isinstance(event, events.MapBuiltEvent):
             gameMap = event.map
             self.ShowMap(gameMap)
@@ -127,6 +122,8 @@ class PygameView:
         elif isinstance(event, events.CharactorMoveEvent):
             self.MoveCharactor(event.charactor)
 
+
+import g2048
 
 class Game:
     """..."""
@@ -142,29 +139,26 @@ class Game:
         self.state = Game.STATE_PREPARING
 
         self.players = [player.Player(evManager)]
-        self.map = map.Map(evManager)
+        self.map = g2048.Game2048Map(evManager, CELL_WIDTH, CELL_HEIGHT)
 
-    # ----------------------------------------------------------------------
     def Start(self):
         self.map.Build()
         self.state = Game.STATE_RUNNING
         ev = events.GameStartedEvent(self)
         self.evManager.Post(ev)
 
-    # ----------------------------------------------------------------------
     def Notify(self, event):
         if isinstance(event, events.TickEvent):
             if self.state == Game.STATE_PREPARING:
                 self.Start()
 
 
-# ------------------------------------------------------------------------------
 def main():
     """..."""
     evManager = events.EventManager()
 
     keybd = inputs.KeyboardController(evManager)
-    spinner = CPUSpinnerController(evManager)
+    spinner = CPUSpinnerController(evManager, 30)
     pygameView = PygameView(evManager)
     game = Game(evManager)
 

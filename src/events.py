@@ -38,6 +38,9 @@ class CharactorMoveRequestEvent(Event):
         self.name = "Charactor Move Request"
         self.direction = direction
 
+class CharactorAtDestination(Event):
+    def __init__(self):
+        self.name = "Charactor At Destination"
 
 class CharactorPlaceEvent(Event):
     """this event occurs when a Charactor is *placed* in a sector,
