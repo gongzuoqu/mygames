@@ -1,0 +1,9 @@
+Other Classes
+================
+ 
+.. autoclass:: worm2d.Image
+
+.. autoclass:: worm2d.Text
+
+.. autoclass:: worm2d.Viewport
+	:members: __init__

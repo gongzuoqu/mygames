@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Engine Class &mdash; Worm2D v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Worm2D v0.2 documentation" href="index.html" />
+    <link rel="next" title="Other Classes" href="classes.html" />
+    <link rel="prev" title="Getting Started" href="gettingstarted.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="classes.html" title="Other Classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Worm2D v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="engine-class">
+<h1>Engine Class<a class="headerlink" href="#engine-class" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="worm2d.Engine">
+<em class="property">class </em><tt class="descclassname">worm2d.</tt><tt class="descname">Engine</tt><big>(</big><em>w</em>, <em>h</em>, <em>depth</em>, <em>fullscreen</em>, <em>caption</em>, <em>font=None</em><big>)</big><a class="headerlink" href="#worm2d.Engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main Class. An Engine object contains most of the funtionality of the engine.</p>
+<dl class="method">
+<dt id="Engine.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>self</em>, <em>w</em>, <em>h</em>, <em>depth</em>, <em>fullscreen</em>, <em>caption</em>, <em>font = None</em><big>)</big><a class="headerlink" href="#Engine.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Initializes the engine.</p>
+<p>Parameters:</p>
+<blockquote>
+<div><p>w,h: screen width/height.</p>
+<p>depth: bits per pixel.</p>
+<p>fullscreen: if true, the window is fullscreen.</p>
+<p>caption: the windows caption.</p>
+<p>font: the pygame font the engine should use. if None, the defualt is loaded.</p>
+</div></blockquote>
+<dl class="method">
+<dt id="worm2d.Engine.DrawImage">
+<tt class="descname">DrawImage</tt><big>(</big><em>image</em>, <em>x</em>, <em>y</em>, <em>w</em>, <em>h</em>, <em>a</em>, <em>rot</em>, <em>r=1.0</em>, <em>g=1.0</em>, <em>b=1.0</em>, <em>UseRatio=True</em>, <em>Cull=False</em>, <em>z=0</em><big>)</big><a class="headerlink" href="#worm2d.Engine.DrawImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw an Image object to the screen.</p>
+<p>Parameters:</p>
+<blockquote>
+<div><p>image: the Image object.</p>
+<p>x,y:   position.</p>
+<p>w,h:   dimensions.</p>
+<p>a:     transperency.</p>
+<p>rot:   angle/rotation.</p>
+<p>r,g,b: tints the image with this color.</p>
+<dl class="docutils">
+<dt>UseRatio:</dt>
+<dd><p class="first">if True(default), than the image will be drawn with its
+original proportions. for example, if a 64x128 image is drawn,
+with (w,h) set (10,10), it will show up as 10x20.
+if False, the image will have the exact dimensions set in (w,h).</p>
+<p class="last">Note that this does not effect square images.</p>
+</dd>
+<dt>Cull:</dt>
+<dd>if set to true, this image will not be drawn if off screen.
+(This seems to not work right sometimes).</dd>
+</dl>
+<p>z: Depth. keep it between 100 and -100</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.DrawQuad">
+<tt class="descname">DrawQuad</tt><big>(</big><em>x</em>, <em>y</em>, <em>w</em>, <em>h</em>, <em>a</em>, <em>r</em>, <em>g</em>, <em>b</em>, <em>rot</em>, <em>z=0</em><big>)</big><a class="headerlink" href="#worm2d.Engine.DrawQuad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a Quad to the screen.</p>
+<p>Parameters:</p>
+<blockquote>
+<div><p>x,y:   position.</p>
+<p>w,h:   dimensions.</p>
+<p>a:     transperency.</p>
+<p>rot:   angle/rotation.</p>
+<p>r,g,b: the quads color.</p>
+<p>z: Depth. keep it between 100 and -100</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.DrawString">
+<tt class="descname">DrawString</tt><big>(</big><em>string</em>, <em>x</em>, <em>y</em>, <em>scale_x</em>, <em>scale_y</em>, <em>a=1.0</em>, <em>rot=0</em>, <em>r=1.0</em>, <em>g=1.0</em>, <em>b=1.0</em>, <em>font=None</em>, <em>z=0</em><big>)</big><a class="headerlink" href="#worm2d.Engine.DrawString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws a string to the screen.</p>
+<p>Parameters:</p>
+<blockquote>
+<div><p>string: the text to draw.</p>
+<p>x,y:   position.</p>
+<p>scale_x,scale_y: Scales the text accordingly.</p>
+<p>a:     transperency.</p>
+<p>rot:   angle/rotation.</p>
+<p>r,g,b: the text color.</p>
+<p>font: the pygame font to use. The engine default will be used if font=None.</p>
+<p>z: Depth. keep it between 100 and -100.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.DrawText">
+<tt class="descname">DrawText</tt><big>(</big><em>text</em>, <em>x</em>, <em>y</em>, <em>scale_x</em>, <em>scale_y</em>, <em>a=1.0</em>, <em>rot=0.0</em>, <em>r=1.0</em>, <em>g=1.0</em>, <em>b=1.0</em>, <em>UseRatio=True</em>, <em>z=0</em><big>)</big><a class="headerlink" href="#worm2d.Engine.DrawText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a Text object to the screen.</p>
+<p>Parameters:</p>
+<blockquote>
+<div><p>text: the Text object.</p>
+<p>x,y:   position.</p>
+<p>scale_x,scale_y: Scales the text accordingly.</p>
+<p>a:     transperency.</p>
+<p>rot:   angle/rotation.</p>
+<p>r,g,b: text the image with this color.</p>
+<dl class="docutils">
+<dt>UseRatio:</dt>
+<dd>if True(default), than the text will be drawn with its
+original proportions. for example, if the text is 64x480, and
+(scale_x,scale_y) set to (10,10), it will show up as 10x20.
+if False, the text will have the exact dimensions set in (scale_x,scale_y).</dd>
+</dl>
+<p>z: Depth. keep it between 100 and -100.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.GetTicks">
+<tt class="descname">GetTicks</tt><big>(</big><big>)</big><a class="headerlink" href="#worm2d.Engine.GetTicks" title="Permalink to this definition">¶</a></dt>
+<dd><p>get Milliseconds since the engine started.
+(This is pretty much pygame.time.get_ticks())</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.IsRunning">
+<tt class="descname">IsRunning</tt><big>(</big><big>)</big><a class="headerlink" href="#worm2d.Engine.IsRunning" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the window has not been closed, this will return True</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.LoadImage">
+<tt class="descname">LoadImage</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#worm2d.Engine.LoadImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads an image from path. Returns a Image object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.LoadImageData">
+<tt class="descname">LoadImageData</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#worm2d.Engine.LoadImageData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a pygame.Surface from path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.LoadSequence">
+<tt class="descname">LoadSequence</tt><big>(</big><em>path</em>, <em>rows</em>, <em>colunms</em>, <em>total</em>, <em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#worm2d.Engine.LoadSequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits an image into a list of images.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.MakeDataFromImage">
+<tt class="descname">MakeDataFromImage</tt><big>(</big><em>image</em><big>)</big><a class="headerlink" href="#worm2d.Engine.MakeDataFromImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>NOT IMPLEMENTED! I never found any use for it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.MakeImageFromData">
+<tt class="descname">MakeImageFromData</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#worm2d.Engine.MakeImageFromData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes an image out of the pygame.Surface data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.MouseCoordsToWorldCoords">
+<tt class="descname">MouseCoordsToWorldCoords</tt><big>(</big><em>mousex</em>, <em>mousey</em>, <em>camx</em>, <em>camy</em>, <em>zoom</em>, <em>viewport</em>, <em>cam_effect=True</em><big>)</big><a class="headerlink" href="#worm2d.Engine.MouseCoordsToWorldCoords" title="Permalink to this definition">¶</a></dt>
+<dd><p>converts screen coords to world coords.
+Parameters:</p>
+<blockquote>
+<div>mousex,mousey: mouse coordinates (inb pixels).
+camx,camy: camera position
+zoom: zoom.
+viewport: the viewport your using (or are going to use)
+cam_effect: If false, camx,camy do not effect anything.</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>wx,wy: World coords.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.PostRender">
+<tt class="descname">PostRender</tt><big>(</big><big>)</big><a class="headerlink" href="#worm2d.Engine.PostRender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finish rendering, update the screen, etc..</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.PreRender">
+<tt class="descname">PreRender</tt><big>(</big><em>r</em>, <em>b</em>, <em>g</em><big>)</big><a class="headerlink" href="#worm2d.Engine.PreRender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepares the screen for drawing.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>r,g,b: background color</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.SetTextString">
+<tt class="descname">SetTextString</tt><big>(</big><em>text_obj</em>, <em>string</em>, <em>font</em><big>)</big><a class="headerlink" href="#worm2d.Engine.SetTextString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets text_object&#8217;s text to string, with font as its font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.SetView">
+<tt class="descname">SetView</tt><big>(</big><em>viewport</em>, <em>camx</em>, <em>camy</em>, <em>zoom</em>, <em>NoDepth=False</em><big>)</big><a class="headerlink" href="#worm2d.Engine.SetView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets viewport.
+Parameters:</p>
+<blockquote>
+<div>viewport: the viewport (duh)
+camx,camy: camera position
+zoom: the zoom.
+NoDepth: if this is set to True, there will be no depth</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="worm2d.Engine.Text">
+<tt class="descname">Text</tt><big>(</big><em>string</em>, <em>font</em><big>)</big><a class="headerlink" href="#worm2d.Engine.Text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a text object, with text set to string. if font is None,
+the engine&#8217;s default font is used.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gettingstarted.html"
+                        title="previous chapter">Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="classes.html"
+                        title="next chapter">Other Classes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/engine.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="classes.html" title="Other Classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="Getting Started"
+             >previous</a> |</li>
+        <li><a href="index.html">Worm2D v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Evan Giesel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

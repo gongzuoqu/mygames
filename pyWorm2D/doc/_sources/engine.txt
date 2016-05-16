@@ -1,0 +1,21 @@
+Engine Class
+================
+
+.. autoclass:: worm2d.Engine
+	:members:  
+	
+	.. method:: __init__(self, w, h, depth, fullscreen, caption, font = None)
+	
+	Initializes the engine.
+
+	Parameters:
+
+            w,h: screen width/height.
+
+            depth: bits per pixel.
+
+            fullscreen: if true, the window is fullscreen.
+
+            caption: the windows caption.
+
+            font: the pygame font the engine should use. if None, the defualt is loaded.

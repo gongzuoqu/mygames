@@ -1,0 +1,33 @@
+.. Worm2D documentation master file, created by
+   sphinx-quickstart on Sun Feb 13 11:14:53 2011.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Worm2D's documentation!
+==================================
+
+Worm2D is a 2D opengl hardware accelerated rendering engine. It has all the drawing features needed for a simple game, but if you need more, any OpenGL or Pygame call can be used directly. 
+Worm2D can be used as a starting point (window initialization, image loading), and then more advanced features can easily be added from there.
+
+.. toctree::
+	:maxdepth: 2
+
+	
+	gettingstarted.rst
+
+
+**Contents:**
+
+.. toctree::
+    :maxdepth: 2
+    
+    engine.rst
+    classes.rst
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

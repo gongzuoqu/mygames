@@ -1,0 +1,248 @@
+Getting Started
+================
+
+Sorry if this isn't very clear, it's the first tutorial I've written.
+
+So, first things first. Before anything else, import the library.
+
+>>> from worm2d import Engine, Viewport
+
+Also, if you want to use pygame (like for event checking or sound) or openGL, import those too.
+For this example, I'm going to import pygame.
+
+>>> #I'm sure you know how to do this.
+>>> import pygame
+
+Now, before we move on, there something you need to know.
+
+.. note::
+	Worm2d uses pygame and openGL already. The window is a pygame window.
+
+**Creating the window**
+
+This is pretty easy. 
+
+>>> engine = Engine(640,480, 32, False, "Worm2D")
+
+Now, this just creates a 640x480x32 fullscreen window with "Worm2D" as its caption. The engine object it just returned holds most of worm2d's functionality. So hang onto it.
+
+**Viewport**
+
+Now our window is 640 pixels wide and 480 pixels high. But openGL, which is used for the drawing, doesn't really care about pixels. It wants to know how many openGL units (I don't know if this is the right term)
+wide and high the screen is. To start out with, the engine sets openGL to the screen dimensions. This is ok, and may just what you want. That way, you could tell the engine to render a 64x64 image 64x64,
+and it would show up just like in pygame.
+
+So, If you want a non-resolution-independent window, skip to the next section. no wait... just read this for good measure.
+
+If you want resolution independence, you would want openGL to have some set dimension, regardless of the window size. I usually pick 100x75 for 640x480, 800x600, or 1024x768 windows. To actually use these 
+dimensions, you need to use viewports.
+
+>>> view = Viewport(0,0,640,480, 100.0, 75.0)
+
+This makes a viewport. the 0,0,640,480 part is where on the screen (origin, 0,0, in this case), and how much of the screen it takes up. The 100.0, 75.0 part is how many opengl units wide and high it is.
+
+.. note::
+	To sum it up, the width and height in the engine init function was just to tell how big the window would be on the screen. The viewport tells openGL how big you want the inside of the window to be. 
+
+We will use the view object later.
+
+**Main Loop**
+
+The engine object has a method, IsRunning(), that will check if the window is still open. it will return true if it is, and false if not.
+we can use this for our mainloop.
+
+>>> while engine.IsRunning():
+
+In the loop, we could use pygame to check events (since the worm2d window is a pygame window)
+
+>>> for event in pygame.event.get():
+...	if event.type == pygame.KEYDOWN:
+...		if event.key == pygame.K_ESCAPE:
+...			return
+
+
+After all game logic, we can begin rendering.
+
+>>> engine.PreRender(0.0, 0.0, 0.0)
+
+This will clear the screen, and set the background color.
+
+>>> engine.SetView(view, 0.0, 0.0, 1.0)
+
+This sets the viewport to our view object. The 0.0, 0.0, 1.0 is camera x, camera y, and zoom.
+
+Then, after drawing all our stuff (more about that later), we tell the engine to finish up (update screen, etc..).
+
+>>> engine.PostRender()
+
+This should be the last thing in the loop.
+
+**Finished Product**
+
+All the code put together should look like this:
+
+>>> from worm2d import Engine, Viewport
+... import pygame
+...
+... def main():
+...    engine = Engine(640,480, 32, False, "Worm2D")
+...
+...    view = Viewport(0,0,640,480, 100.0, 75.0)    
+...
+...    while engine.IsRunning():
+...
+...        for event in pygame.event.get():
+...            if event.type == pygame.KEYDOWN:
+...                if event.key == pygame.K_ESCAPE:
+...                    return
+...
+...        engine.PreRender(0.2, 0.2, 0.2)
+...
+...        engine.SetView(view, 0.0, 0.0, 1.0)
+...
+...        #draw your stuff in here
+...
+...        engine.PostRender()
+...
+... main()
+
+
+This will just be a blank screen. You can run example 1 to get much the same (and easier to cut and paste too).
+
+.. note ::
+	For more information about viewports, see example 6.
+
+Well, now what? A blank screen isn't that exiting. Time to spice things up with...
+
+
+**Images**
+
+Loading images is simple.
+
+>>> image = engine.LoadImage("hero.png")
+
+The engine will use the images alpha channel if it can, or make (255,0,255) transparent (or both). Sorry if you like using pink. 
+
+...No wait, I'm not :)
+
+.. note:: 
+	I haven't tested many image formats with worm2d, because I only ever use png. However, in theory, worm2d *should* use any format that pygame can. Also: images do not 
+	have to be power of two (64x64, 256x256, and so on), and you don't need to have a modernish graphics card (like I don't) to use them.
+
+Drawing the image is almost as simple.
+
+>>> engine.DrawImage(image, x,y, h,w, alpha, rotation)
+
+Thats pretty much it. There are three optional parameters, 
+
+>>> engine.DrawImage(image, x,y, h,w, alpha, rotation, UseRatio = True, Cull = True, z = 0)
+
+If UseRatio is set to true, the image will maintain its original proportion, if w and h are equal. This only effects non-square images.
+If Cull is set to True, the image will not be drawn while offscreen. 
+z is the depth of the image. if you don't use this, image will appear in the order that they were drawn (like in pygame). Otherwise, they will be higher or lower than other images regardless of draw order.
+
+Example 2 is about images, so if you want to see this code in action (or cut and paste easier), head over there.
+
+And thats it! Well, pretty much it. There's also LoadSequence, which you can find in the engine section of the docs, or in example 4.
+
+...Well, thats not all either. You can also use engine.LoadImageData to get a pygame image, which you can modify however you want, and then use engine.MakeImageFromData to make it into an image.
+
+**Text**
+
+Worm2D has very simple Text rendering. So simple, in fact, that I would not be surprised (or offended) if you use your own text rendering code.
+
+first off, you need a pygame font. I will assume you know how to do that already.
+
+.. note:: pygame.font is already initialized.
+
+>>> text = engine.Text("Text", font)
+
+Here, font is a pygame font loaded before. If you don't have a font (or are to lazy to find one), you could do this:
+
+>>> text = engine.Text("Text", None)
+
+This will use pygame's default font. 
+
+Now, any time you want to change the text simple do this:
+
+>>> engine.SetTextString(text, "This is a text object", font)
+
+or 
+
+>>> engine.SetTextString(text, "This is a text object", None)
+
+The first argument is our text object, the second the new string, third the font object (which, again, can be None)
+
+Now, rendering text is almost exactly the same as rendering an image.
+
+>>> #the easy way
+>>> engine.DrawText(text, x,y, w,h)
+>>> #all the options
+>>> engine.DrawText(text, x,y, w,h, alpha=1.0, rotation=0.0, r=1.0, g=1.0, b=1.0, UseRatio=True, z = 0)
+
+you will recognize all of these from before.
+
+And with that, we are done! Example 3 is about text, if you need to see more.
+
+.. note ::
+	
+	I found that DrawString is much,
+	much slower than DrawText. This is because DrawString renders the text
+	as its called, and a text object only re-renders when changed.
+	Moral: use Text objects most of the time. If you are displaying something
+	that changes very frequently (like, every frame), DrawString is fine.
+	Also, DrawSring is handy for debug purposes, when you want to quickly
+	see a variable, or something like that. 
+
+**Other Useful Things**
+
+You can manipulate the camera with engine.SetView.
+if you have a camera x,y, and zoom, you can do this:
+
+>>> engine.SetView(view, camx,camy,zoom)
+
+As of yet, there is no camera rotation.
+
+
+Another feature is engine.MouseCoordsToWorldCoords. With this, you can convert a position on the screen (say, mouse coords), and covert the to your game world (for picking, or something like that)
+
+>>> #As you can see, you have to supply it with the viewport you are using.
+>>> MouseCoordsToWorldCoords(mousex, mousey, camx, camy, zoom, viewport, cam_effect = True)
+
+if cam_effect is false, the camx,camy, and zoom are not applied. This is useful for if the camera moves around and you have a hud to interact with.
+
+
+Oh yeah, engine.DrawQuad
+
+>>> engine.DrawQuad(self,x,y,w,h,a,r,g,b,rot, z = 0)
+
+It's the same as DrawImage and DrawText, but without an image or text object (Or UseRatio).
+
+
+
+Last and, well... least, is GetTicks. wait, why not use pygame.time.get_ticks? Well...
+
+>>> def GetTicks(self):
+...     return pygame.time.get_ticks()
+
+It doesn't make that much of a difference.
+
+
+**The End**
+
+If you have read this far without going insane from my bad writing, good for you!
+If this did make sense to you, even better!
+
+Soooooooooooooooo... I stink at conclusions. So long!
+
+
+
+
+
+
+
+
+
+
+
+

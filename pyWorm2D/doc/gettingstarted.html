@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started &mdash; Worm2D v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Worm2D v0.2 documentation" href="index.html" />
+    <link rel="next" title="Engine Class" href="engine.html" />
+    <link rel="prev" title="Welcome to Worm2D’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="engine.html" title="Engine Class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Worm2D’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Worm2D v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Sorry if this isn&#8217;t very clear, it&#8217;s the first tutorial I&#8217;ve written.</p>
+<p>So, first things first. Before anything else, import the library.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">worm2d</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">Viewport</span>
+</pre></div>
+</div>
+<p>Also, if you want to use pygame (like for event checking or sound) or openGL, import those too.
+For this example, I&#8217;m going to import pygame.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c">#I&#39;m sure you know how to do this.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pygame</span>
+</pre></div>
+</div>
+<p>Now, before we move on, there something you need to know.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Worm2d uses pygame and openGL already. The window is a pygame window.</p>
+</div>
+<p><strong>Creating the window</strong></p>
+<p>This is pretty easy.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span><span class="mi">480</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;Worm2D&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, this just creates a 640x480x32 fullscreen window with &#8220;Worm2D&#8221; as its caption. The engine object it just returned holds most of worm2d&#8217;s functionality. So hang onto it.</p>
+<p><strong>Viewport</strong></p>
+<p>Now our window is 640 pixels wide and 480 pixels high. But openGL, which is used for the drawing, doesn&#8217;t really care about pixels. It wants to know how many openGL units (I don&#8217;t know if this is the right term)
+wide and high the screen is. To start out with, the engine sets openGL to the screen dimensions. This is ok, and may just what you want. That way, you could tell the engine to render a 64x64 image 64x64,
+and it would show up just like in pygame.</p>
+<p>So, If you want a non-resolution-independent window, skip to the next section. no wait... just read this for good measure.</p>
+<p>If you want resolution independence, you would want openGL to have some set dimension, regardless of the window size. I usually pick 100x75 for 640x480, 800x600, or 1024x768 windows. To actually use these
+dimensions, you need to use viewports.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">view</span> <span class="o">=</span> <span class="n">Viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">640</span><span class="p">,</span><span class="mi">480</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This makes a viewport. the 0,0,640,480 part is where on the screen (origin, 0,0, in this case), and how much of the screen it takes up. The 100.0, 75.0 part is how many opengl units wide and high it is.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To sum it up, the width and height in the engine init function was just to tell how big the window would be on the screen. The viewport tells openGL how big you want the inside of the window to be.</p>
+</div>
+<p>We will use the view object later.</p>
+<p><strong>Main Loop</strong></p>
+<p>The engine object has a method, IsRunning(), that will check if the window is still open. it will return true if it is, and false if not.
+we can use this for our mainloop.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">engine</span><span class="o">.</span><span class="n">IsRunning</span><span class="p">():</span>
+</pre></div>
+</div>
+<p>In the loop, we could use pygame to check events (since the worm2d window is a pygame window)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_ESCAPE</span><span class="p">:</span>
+<span class="gp">... </span>                    <span class="k">return</span>
+</pre></div>
+</div>
+<p>After all game logic, we can begin rendering.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">PreRender</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will clear the screen, and set the background color.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">SetView</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This sets the viewport to our view object. The 0.0, 0.0, 1.0 is camera x, camera y, and zoom.</p>
+<p>Then, after drawing all our stuff (more about that later), we tell the engine to finish up (update screen, etc..).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">PostRender</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This should be the last thing in the loop.</p>
+<p><strong>Finished Product</strong></p>
+<p>All the code put together should look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">worm2d</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">Viewport</span>
+<span class="gp">... </span><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="gp">... </span>   <span class="n">engine</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span><span class="mi">480</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;Worm2D&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>   <span class="n">view</span> <span class="o">=</span> <span class="n">Viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">640</span><span class="p">,</span><span class="mi">480</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">75.0</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>   <span class="k">while</span> <span class="n">engine</span><span class="o">.</span><span class="n">IsRunning</span><span class="p">():</span>
+<span class="gp">...</span>
+<span class="gp">... </span>       <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+<span class="gp">... </span>           <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+<span class="gp">... </span>               <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_ESCAPE</span><span class="p">:</span>
+<span class="gp">... </span>                   <span class="k">return</span>
+<span class="gp">...</span>
+<span class="gp">... </span>       <span class="n">engine</span><span class="o">.</span><span class="n">PreRender</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>       <span class="n">engine</span><span class="o">.</span><span class="n">SetView</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>       <span class="c">#draw your stuff in here</span>
+<span class="gp">...</span>
+<span class="gp">... </span>       <span class="n">engine</span><span class="o">.</span><span class="n">PostRender</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will just be a blank screen. You can run example 1 to get much the same (and easier to cut and paste too).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more information about viewports, see example 6.</p>
+</div>
+<p>Well, now what? A blank screen isn&#8217;t that exiting. Time to spice things up with...</p>
+<p><strong>Images</strong></p>
+<p>Loading images is simple.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">LoadImage</span><span class="p">(</span><span class="s">&quot;hero.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The engine will use the images alpha channel if it can, or make (255,0,255) transparent (or both). Sorry if you like using pink.</p>
+<p>...No wait, I&#8217;m not :)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">I haven&#8217;t tested many image formats with worm2d, because I only ever use png. However, in theory, worm2d <em>should</em> use any format that pygame can. Also: images do not
+have to be power of two (64x64, 256x256, and so on), and you don&#8217;t need to have a modernish graphics card (like I don&#8217;t) to use them.</p>
+</div>
+<p>Drawing the image is almost as simple.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">DrawImage</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">rotation</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thats pretty much it. There are three optional parameters,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">DrawImage</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">UseRatio</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">Cull</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If UseRatio is set to true, the image will maintain its original proportion, if w and h are equal. This only effects non-square images.
+If Cull is set to True, the image will not be drawn while offscreen.
+z is the depth of the image. if you don&#8217;t use this, image will appear in the order that they were drawn (like in pygame). Otherwise, they will be higher or lower than other images regardless of draw order.</p>
+<p>Example 2 is about images, so if you want to see this code in action (or cut and paste easier), head over there.</p>
+<p>And thats it! Well, pretty much it. There&#8217;s also LoadSequence, which you can find in the engine section of the docs, or in example 4.</p>
+<p>...Well, thats not all either. You can also use engine.LoadImageData to get a pygame image, which you can modify however you want, and then use engine.MakeImageFromData to make it into an image.</p>
+<p><strong>Text</strong></p>
+<p>Worm2D has very simple Text rendering. So simple, in fact, that I would not be surprised (or offended) if you use your own text rendering code.</p>
+<p>first off, you need a pygame font. I will assume you know how to do that already.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">pygame.font is already initialized.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s">&quot;Text&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, font is a pygame font loaded before. If you don&#8217;t have a font (or are to lazy to find one), you could do this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s">&quot;Text&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will use pygame&#8217;s default font.</p>
+<p>Now, any time you want to change the text simple do this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">SetTextString</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s">&quot;This is a text object&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">SetTextString</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s">&quot;This is a text object&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first argument is our text object, the second the new string, third the font object (which, again, can be None)</p>
+<p>Now, rendering text is almost exactly the same as rendering an image.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c">#the easy way</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">DrawText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#all the options</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">DrawText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">UseRatio</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>you will recognize all of these from before.</p>
+<p>And with that, we are done! Example 3 is about text, if you need to see more.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">I found that DrawString is much,
+much slower than DrawText. This is because DrawString renders the text
+as its called, and a text object only re-renders when changed.
+Moral: use Text objects most of the time. If you are displaying something
+that changes very frequently (like, every frame), DrawString is fine.
+Also, DrawSring is handy for debug purposes, when you want to quickly
+see a variable, or something like that.</p>
+</div>
+<p><strong>Other Useful Things</strong></p>
+<p>You can manipulate the camera with engine.SetView.
+if you have a camera x,y, and zoom, you can do this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">SetView</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">camx</span><span class="p">,</span><span class="n">camy</span><span class="p">,</span><span class="n">zoom</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As of yet, there is no camera rotation.</p>
+<p>Another feature is engine.MouseCoordsToWorldCoords. With this, you can convert a position on the screen (say, mouse coords), and covert the to your game world (for picking, or something like that)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c">#As you can see, you have to supply it with the viewport you are using.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MouseCoordsToWorldCoords</span><span class="p">(</span><span class="n">mousex</span><span class="p">,</span> <span class="n">mousey</span><span class="p">,</span> <span class="n">camx</span><span class="p">,</span> <span class="n">camy</span><span class="p">,</span> <span class="n">zoom</span><span class="p">,</span> <span class="n">viewport</span><span class="p">,</span> <span class="n">cam_effect</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>if cam_effect is false, the camx,camy, and zoom are not applied. This is useful for if the camera moves around and you have a hud to interact with.</p>
+<p>Oh yeah, engine.DrawQuad</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span><span class="o">.</span><span class="n">DrawQuad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">rot</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It&#8217;s the same as DrawImage and DrawText, but without an image or text object (Or UseRatio).</p>
+<p>Last and, well... least, is GetTicks. wait, why not use pygame.time.get_ticks? Well...</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">GetTicks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">get_ticks</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It doesn&#8217;t make that much of a difference.</p>
+<p><strong>The End</strong></p>
+<p>If you have read this far without going insane from my bad writing, good for you!
+If this did make sense to you, even better!</p>
+<p>Soooooooooooooooo... I stink at conclusions. So long!</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Worm2D&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="engine.html"
+                        title="next chapter">Engine Class</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/gettingstarted.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="engine.html" title="Engine Class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Worm2D’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Worm2D v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Evan Giesel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
