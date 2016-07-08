@@ -13,10 +13,12 @@
 # Chrono Trigger.
 # http://www.videogamesprites.net/ChronoTrigger
 
+import sys
+import os
+sys.path.append(os.path.abspath('..'))
 
 import pygame
 from pygame.locals import *
-import sys
 import time
 import pyganim
 
@@ -32,7 +34,7 @@ RIGHT = 'right'
 WINDOWWIDTH = 640
 WINDOWHEIGHT = 480
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), 0, 32)
-pygame.display.set_caption('Pyganim Test 4')
+pygame.display.set_caption('Pyganim Walking Demo')
 
 # load the "standing" sprites (these are single images, not animations)
 front_standing = pygame.image.load('gameimages/crono_front.gif')
@@ -46,7 +48,7 @@ playerWidth, playerHeight = front_standing.get_size()
 animTypes = 'back_run back_walk front_run front_walk left_run left_walk'.split()
 animObjs = {}
 for animType in animTypes:
-    imagesAndDurations = [('gameimages/crono_%s.%s.gif' % (animType, str(num).rjust(3, '0')), 0.1) for num in range(6)]
+    imagesAndDurations = [('gameimages/crono_%s.%s.gif' % (animType, str(num).rjust(3, '0')), 100) for num in range(6)]
     animObjs[animType] = pyganim.PygAnimation(imagesAndDurations)
 
 # create the right-facing sprites by copying and flipping the left-facing sprites
@@ -215,4 +217,4 @@ while True:
     windowSurface.blit(instructionSurf, instructionRect)
 
     pygame.display.update()
-    mainClock.tick(25) # Feel free to experiment with any FPS setting.
+    mainClock.tick(30) # Feel free to experiment with any FPS setting.
