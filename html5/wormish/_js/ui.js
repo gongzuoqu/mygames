@@ -4,6 +4,8 @@ WormishTheGame.ui = (function($){
 	    ROW_HEIGHT: 50,
         FLOWER_DIMS : 50,
 
+        WORM_DIMS : 50,
+
 		init : function () {
 		},
 
@@ -26,9 +28,20 @@ WormishTheGame.ui = (function($){
                             top: top
                         });
                         gameArea.append(flowerSprite)
+
                     }
                 }
             }
+        },
+
+        updateWormPosition : function (worm) {
+            var left = worm.getXPos() - WormishTheGame.ui.WORM_DIMS / 2 ;
+            var top = worm.getYPos() - WormishTheGame.ui.WORM_DIMS / 2 ;
+            worm.getSprite().css({
+                top: top,
+                left: left
+            }) ;
+            // gameArea.append(worm.getSprite())
         },
 
 		hideDialog : function () {

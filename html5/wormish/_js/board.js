@@ -20,6 +20,15 @@ WormishTheGame.Board = (function($){
             }
         }
 
+        this.updateWormPosition = function (worm) {
+
+            var x = worm.getXPos() ;
+            var y = worm.getYPos() ;
+            var col =  x / NUM_ROWS ;
+            var row =  y / NUM_COLS ;
+            worm.setColAndRow(col, row) ;
+        }
+
         return this ;
     } ;
 
