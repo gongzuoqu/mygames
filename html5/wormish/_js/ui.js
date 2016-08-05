@@ -17,14 +17,16 @@ WormishTheGame.ui = (function($){
                 for(var j=0; j<row.length; j++) {
 
                     var flower = row[j] ;
-                    var flowerSprite = flower.getSprite() ;
-                    var left = j * ui.FLOWER_DIMS ;
-                    var top = i * ui.ROW_HEIGHT ;
-                    flowerSprite.css({
-                        left: left,
-                        top: top
-                    }) ;
-                    gameArea.append(flowerSprite)
+                    if (flower) {
+                        var flowerSprite = flower.getSprite();
+                        var left = j * ui.FLOWER_DIMS;
+                        var top = i * ui.ROW_HEIGHT;
+                        flowerSprite.css({
+                            left: left,
+                            top: top
+                        });
+                        gameArea.append(flowerSprite)
+                    }
                 }
             }
         },

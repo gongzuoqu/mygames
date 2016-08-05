@@ -30,6 +30,7 @@ body
 	background-color: #fff;
 	clip: auto;
 	overflow: hidden;
+	border: 2px solid #99f;
 }
 #board
 {
@@ -86,6 +87,28 @@ body
 	text-shadow: 0px 1px 1px #f99;
 }
 .but_start_game:hover
+{
+	background-color: #f33;
+}
+
+.but_refresh_map
+{
+	position: absolute;
+	left: 700px;
+	top: 5px;
+	height: 50px;
+	width: 200px;
+	background-color: #f00;
+	cursor: pointer;
+	border-radius: 15px;
+	border: 2px solid #f66;
+	font-size: 28px;
+	line-height: 60px;
+	font-weight: bold;
+	text-shadow: 0px 1px 1px #f99;
+}
+
+.but_refresh_map:hover
 {
 	background-color: #f33;
 }
