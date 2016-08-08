@@ -22,10 +22,10 @@ WormishTheGame.Board = (function($){
 
         this.updateWormPosition = function (worm) {
 
-            var coord = worm.getXAndY() ;
-            var col =  coord.x / NUM_ROWS ;
-            var row =  coord.y / NUM_COLS ;
-            worm.setColAndRow(col, row) ;
+            // var coord = worm.getXAndY() ;
+            // var col =  coord.x / NUM_ROWS ;
+            // var row =  coord.y / NUM_COLS ;
+            // worm.setColAndRow(col, row) ;
         }
 
         return this ;

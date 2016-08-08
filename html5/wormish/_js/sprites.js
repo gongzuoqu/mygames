@@ -23,41 +23,44 @@ WormishTheGame.Flower = (function($) {
 })(jQuery) ;
 
 WormishTheGame.Worm = (function($) {
-    var DIRECTION_UP = 1 ;
-    var DIRECTION_RIGHT = 2 ;
-    var DIRECTION_DOWN = 3 ;
-    var DIRECTION_LEFT = 4 ;
 
-    var Worm = function(sprite) {
-        var that = this ;
-        var size = 1 ;
-        var direction = DIRECTION_RIGHT ;
+
+    var DIRECTIONS = {
+        DIRECTION_UP : 1 ,
+        DIRECTION_RIGHT : 2 ,
+        DIRECTION_DOWN : 3 ,
+        DIRECTION_LEFT : 4
+    } ;
+
+    var INIT_SIZE = 5 ;
+    var INIT_DIRECTION = DIRECTIONS.DIRECTION_RIGHT ;
+
+    var WormCell = function(sprite, x, y, direct) {
         var top, left ;
         var col, row ;
-        var xPos, yPos ;
-        var isMoving = false ;
+        var xPos = x, yPos= y ;
+        var direction = direct ;
         this.getSprite = function() { return sprite ; }
-        this.setMove = function (bool) { isMoving = bool ; }
-        this.isMoving = function () { return isMoving ; }
-        this.getSize = function() { return size ; }
-        this.increaseSize =function() { size +=1 ;}
         this.getDirection = function () { return direction ;}
-        this.goUp = function () { direction = DIRECTION_UP ;}
-        this.goRight = function () { direction = DIRECTION_RIGHT ;}
-        this.goDown = function () { direction = DIRECTION_DOWN ;}
-        this.goLeft = function () { direction = DIRECTION_LEFT ;}
+        this.goUp = function () { direction = DIRECTIONS.DIRECTION_UP ;}
+        this.goRight = function () { direction = DIRECTIONS.DIRECTION_RIGHT ;}
+        this.goDown = function () { direction = DIRECTIONS.DIRECTION_DOWN ;}
+        this.goLeft = function () { direction = DIRECTIONS.DIRECTION_LEFT ;}
+
         this.getTopAndLeft = function () {
             var coord = {
                 Top: top ,
                 Left: left } ;
                 return coord ; }
         this.setTopAndLeft = function (t, l) { top=t ; left = l;}
+
         this.getColAndRow = function () {
             var coord = {
                 Col: col ,
                 Row: row } ;
                 return coord ; }
         this.setColAndRow = function (c, r) { col = c ; row = r ;}
+
         this.getXAndY = function () {
             var coord = {
                 x: xPos ,
@@ -66,12 +69,42 @@ WormishTheGame.Worm = (function($) {
         this.setXAndY = function (x, y) { console.log("X:"+x+" Y:"+y) ; xPos = x ; yPos = y ;}
     }
 
+    var Worm = function(allCells) {
+        var that = this ;
+        var size = allCells.length ;
+        var isMoving = false ;
+        var allBodyCell = allCells
+
+        this.setMove = function (bool) { isMoving = bool ; }
+        this.isMoving = function () { return isMoving ; }
+        this.getSize = function() { return size ; }
+        this.getAllCells = function () { return allBodyCell ; }
+        this.goUp = function () { allBodyCell[0].goUp() ;}
+        this.goRight = function () { allBodyCell[0].goRight() ;}
+        this.goDown = function () { allBodyCell[0].goDown() ;}
+        this.goLeft = function () { allBodyCell[0].goLeft() ;}
+
+    }
+
     Worm.create = function() {
+        var x = 175, y= 175 ;
+        var allCells = [] ;
+        for (var i=0;i<INIT_SIZE; i++) {
+            var wc = Worm.createWormCell(x, y, INIT_DIRECTION)
+            allCells[i] = wc ;
+            // x -= WormishTheGame.ui.WORM_DIMS + (WormishTheGame.ui.WORM_DIMS/4) ;
+            x -= (WormishTheGame.ui.WORM_DIMS/4) * 1.5 ;
+        }
+
+        var w = new Worm(allCells) ;
+        return w ;
+    }
+
+    Worm.createWormCell = function(x, y, direct) {
         var sprite = $(document.createElement("div")) ;
         sprite.addClass("worm") ;
-        var w = new Worm(sprite) ;
-        w.setXAndY(175,175)
-        return w ;
+        var wc = new WormCell(sprite, x, y, direct) ;
+        return wc ;
     }
 
     return Worm ;

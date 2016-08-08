@@ -29,8 +29,12 @@ WormishTheGame.Game = (function($){
         var createAndSetWorm = function() {
 			var worm = WormishTheGame.Worm.create();
             worm.goRight() ;
-			worm.getSprite().addClass("worm");
-			$("#board").append(worm.getSprite());
+            var allCells = worm.getAllCells()
+            for (var i=0;i<allCells.length;i++) {
+                var cell = allCells[i]
+                console.log("cell: "+cell)
+    			$("#board").append(cell.getSprite());
+            }
             board.updateWormPosition(worm) ;
 			return worm;
         } ;
@@ -38,28 +42,28 @@ WormishTheGame.Game = (function($){
         var gameTick = function() {
             console.log("game tick") ;
 
-            if (worm.isMoving() === false) {
+            if (!worm.isMoving()) {
                 console.log("game tick moving") ;
-                var dir = worm.getDirection() ;
-                switch(dir) {
-                    case 1: // Up
-                        console.log("to Up")
-                        coord = { x:0, y:-WormishTheGame.ui.WORM_DIMS} ;
-                        break ;
-                    case 2: // Right
-                        console.log("to Right")
-                        coord = { x:WormishTheGame.ui.WORM_DIMS, y:0} ;
-                        break ;
-                    case 3: // Down
-                        console.log("to Down")
-                        coord = { x:0, y:WormishTheGame.ui.WORM_DIMS} ;
-                        break ;
-                    case 4: // Left
-                        console.log("to Left")
-                        coord = { x:-WormishTheGame.ui.WORM_DIMS, y:0} ;
-                        break ;
-                }
-                WormishTheGame.ui.moveWormTo(worm, coord, 250);
+                // var dir = worm.getDirection() ;
+                // switch(dir) {
+                //     case 1: // Up
+                //         console.log("to Up")
+                //         coord = { x:0, y:-WormishTheGame.ui.WORM_DIMS} ;
+                //         break ;
+                //     case 2: // Right
+                //         console.log("to Right")
+                //         coord = { x:WormishTheGame.ui.WORM_DIMS, y:0} ;
+                //         break ;
+                //     case 3: // Down
+                //         console.log("to Down")
+                //         coord = { x:0, y:WormishTheGame.ui.WORM_DIMS} ;
+                //         break ;
+                //     case 4: // Left
+                //         console.log("to Left")
+                //         coord = { x:-WormishTheGame.ui.WORM_DIMS, y:0} ;
+                //         break ;
+                // }
+                WormishTheGame.ui.moveWormTo(worm, 250);
                 board.updateWormPosition(worm) ;
             }
         }
